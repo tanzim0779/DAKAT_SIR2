@@ -6,7 +6,7 @@ const SITE = {
 
   // বাইরের লিংক (আপনার আসল লিংক বসান)
   links: {
-    youtube:       "https://www.youtube.com/",
+    youtube: "videos/",
     tiktok:        "https://www.tiktok.com/",
     whatsapp:      "https://wa.me/8801XXXXXXXXX",
     facebookGroup: "https://www.facebook.com/groups/",
