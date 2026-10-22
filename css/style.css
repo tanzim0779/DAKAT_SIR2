@@ -155,3 +155,20 @@ main { display: grid; gap: 16px; margin-top: 16px; }
 .social .chip::before { padding: 1.5px; }
 .social .chip::after  { opacity: .45; }
 
+
+
+
+
+
+
+
+
+
+
+/* ===== AI কার্ড: লাল বর্ডার ===== */
+.ai::before, .ai::after { ... }
+.ai::after { opacity: .6; }
+
+/* ===== About কার্ড: আলো ঘোরা বন্ধ ===== */
+.about .card::before, .about .card::after { ... }
+.about .card::after { opacity: .5; }
