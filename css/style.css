@@ -131,3 +131,18 @@ main { display: grid; gap: 16px; margin-top: 16px; }
   50%      { opacity: .25; }
 }
   
+
+
+
+/* সব রঙের স্থির প্রিমিয়াম বর্ডার */
+.lit-rainbow::before, .lit-rainbow::after {
+  animation: none;
+  background: conic-gradient(from 0deg,
+    #ff3d6e, #ff8a3d, #ffc857, #5bff8a,
+    #22e3ff, #3b7bff, #8b5cf6, #ff4fd8, #ff3d6e);
+}
+.lit-rainbow::before { padding: 2px; }
+.lit-rainbow::after  { opacity: .75; }
+
+
+
