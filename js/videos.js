@@ -239,3 +239,62 @@
 
     showControls();
   });
+
+
+
+  // ১০ সেকেন্ড পিছনে
+  $('#back').addEventListener('click', () => {
+    if (ready && player) {
+      player.seekTo(
+        Math.max(0, player.getCurrentTime() - 10),
+        true
+      );
+    }
+    showControls();
+  });
+
+  // ১০ সেকেন্ড সামনে
+  $('#fwd').addEventListener('click', () => {
+    if (ready && player) {
+      player.seekTo(
+        Math.min(
+          player.getDuration(),
+          player.getCurrentTime() + 10
+        ),
+        true
+      );
+    }
+    showControls();
+  });
+
+  // ভিডিওর সময় পরিবর্তন
+  seek.addEventListener('input', () => {
+    dragging = true;
+    seek.style.setProperty(
+      '--p',
+      (Number(seek.value) / 10) + '%'
+    );
+  });
+
+  seek.addEventListener('change', () => {
+    if (ready && player) {
+      player.seekTo(
+        Number(seek.value) / 1000 * player.getDuration(),
+        true
+      );
+    }
+    dragging = false;
+    showControls();
+  });
+
+  // Playback speed
+  $('#speed').addEventListener('click', () => {
+    if (!ready || !player) return;
+
+    si = (si + 1) % SPEEDS.length;
+    player.setPlaybackRate(SPEEDS[si]);
+    $('#speed').textContent = SPEEDS[si] + 'x';
+    showControls();
+  });
+
+})();
