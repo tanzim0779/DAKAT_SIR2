@@ -44,3 +44,30 @@
 .more[hidden] { display: none; }
 .note { padding: 22px; text-align: center; color: var(--muted); }
 @media (min-width: 640px) { .vlist { grid-template-columns: 1fr 1fr; } }
+
+
+
+/* আগের ও পরের ভিডিও বাটন */
+.video-nav {
+  position: absolute;
+  inset: 50% 0 auto 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.video-nav button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 50%;
+  background: rgba(0,0,0,.65);
+  color: #fff;
+  font-size: 19px;
+  cursor: pointer;
+  pointer-events: auto;
+}
