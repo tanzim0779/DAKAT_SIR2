@@ -106,82 +106,98 @@
   
 
 
-$('#pp').addEventListener('click', toggle);
 
-const stage = $('#stage');
-const shield = $('#shield');
+  // Play / Pause
+  const toggle = () => {
+    if (!ready || !player) return;
 
-let hideControlsTimer;
-let tapTimer;
-let lastTapZone = '';
-let lastTapTime = 0;
+    if (player.getPlayerState() === 1) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  };
 
-function showControls() {
-  stage.classList.remove('controls-hidden');
-  clearTimeout(hideControlsTimer);
+  const stage = $('#stage');
+  const shield = $('#shield');
 
-  hideControlsTimer = setTimeout(() => {
-    stage.classList.add('controls-hidden');
-  }, 2500);
-}
+  let hideControlsTimer = null;
+  let tapTimer = null;
+  let lastTapZone = '';
+  let lastTapTime = 0;
 
-shield.addEventListener('pointerup', (e) => {
-  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  function showControls() {
+    stage.classList.remove('controls-hidden');
+    clearTimeout(hideControlsTimer);
 
-  const r = stage.getBoundingClientRect();
-  const x = e.clientX - r.left;
-  const y = e.clientY - r.top;
+    hideControlsTimer = setTimeout(() => {
+      stage.classList.add('controls-hidden');
+    }, 2500);
+  }
 
-  const zone =
-    x < r.width * 0.33 ? 'left' :
-    x > r.width * 0.67 ? 'right' : 'center';
+  $('#pp').addEventListener('click', () => {
+    toggle();
+    showControls();
+  });
 
-  const now = Date.now();
+  shield.addEventListener('pointerup', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-  if (
-    zone !== 'center' &&
-    zone === lastTapZone &&
-    now - lastTapTime < 320
-  ) {
+    const r = stage.getBoundingClientRect();
+    const x = e.clientX - r.left;
+
+    const zone =
+      x < r.width / 3 ? 'left' :
+      x > r.width * 2 / 3 ? 'right' : 'center';
+
+    const now = Date.now();
+
+    if (
+      zone !== 'center' &&
+      zone === lastTapZone &&
+      now - lastTapTime < 320
+    ) {
+      clearTimeout(tapTimer);
+      lastTapZone = '';
+      lastTapTime = 0;
+
+      if (ready && player) {
+        const current = player.getCurrentTime();
+        const duration = player.getDuration();
+
+        player.seekTo(
+          Math.max(0, Math.min(
+            duration,
+            current + (zone === 'right' ? 10 : -10)
+          )),
+          true
+        );
+      }
+
+      showControls();
+      return;
+    }
+
     clearTimeout(tapTimer);
-    lastTapZone = '';
-    lastTapTime = 0;
+    lastTapZone = zone;
+    lastTapTime = now;
 
-    if (ready) {
-      const current = player.getCurrentTime();
-      const duration = player.getDuration();
+    tapTimer = setTimeout(() => {
+      if (zone === 'center') toggle();
 
-      player.seekTo(
-        Math.max(0, Math.min(duration, current + (zone === 'right' ? 10 : -10))),
-        true
-      );
+      showControls();
+      lastTapZone = '';
+      lastTapTime = 0;
+    }, 330);
+  });
+
+  stage.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.ctrl, .video-nav')) {
+      showControls();
     }
+  });
 
-    showControls();
-    return;
-  }
-
-  clearTimeout(tapTimer);
-  lastTapZone = zone;
-  lastTapTime = now;
-
-  tapTimer = setTimeout(() => {
-    if (zone === 'center') {
-      toggle();
-    }
-
-    showControls();
-    lastTapZone = '';
-  }, 220);
-});
-
-stage.addEventListener('pointerdown', (e) => {
-  if (e.target.closest('.ctrl, .video-nav')) {
-    showControls();
-  }
-});
-
-showControls();
+  showControls();
 
 
 
