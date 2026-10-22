@@ -293,4 +293,3 @@
     $('#speed').textContent = SPEEDS[si] + 'x';
     showControls();
   });
-})();
