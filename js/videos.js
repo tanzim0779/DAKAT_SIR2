@@ -50,6 +50,19 @@
   });
   $('#vlist').addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (b) play(b.dataset.id); });
 
+    function changeVideo(direction) {
+    if (!cur || !all.length) return;
+
+    const index = all.findIndex((v) => v.id === cur);
+    if (index === -1) return;
+
+    const nextIndex = (index + direction + all.length) % all.length;
+    play(all[nextIndex].id);
+  }
+
+  $('#prevVideo').addEventListener('click', () => changeVideo(-1));
+  $('#nextVideo').addEventListener('click', () => changeVideo(1));
+
   /* ---------- প্লেয়ার ---------- */
   window.onYouTubeIframeAPIReady = () => { apiReady = true; if (pending) mk(); };
   const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
