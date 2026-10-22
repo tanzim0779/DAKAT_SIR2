@@ -199,46 +199,36 @@
 
   showControls();
 
-})();
 
 
 
 
-  
 
-  
-const st = $('#stage');
+  // Fullscreen
+  const st = $('#stage');
 
-$('#fs').addEventListener('click', async () => {
-  try {
-    if (
-      document.fullscreenElement ||
-      document.webkitFullscreenElement
-    ) {
-      if (document.exitFullscreen) {
-        await document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
+  $('#fs').addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      } else if (st.requestFullscreen) {
+        await st.requestFullscreen();
+      } else if (st.webkitRequestFullscreen) {
+        st.webkitRequestFullscreen();
       }
-      return;
+    } catch (err) {
+      console.error('Fullscreen error:', err);
     }
 
-    if (st.requestFullscreen) {
-      await st.requestFullscreen();
-    } else if (st.webkitRequestFullscreen) {
-      st.webkitRequestFullscreen();
-    } else {
-      alert('এই ব্রাউজারে Fullscreen সাপোর্ট করছে না।');
-    }
-  } catch (err) {
-    console.error('Fullscreen error:', err);
-    alert('Fullscreen চালু হয়নি। ভিডিও পেজটি Chrome-এ খুলে চেষ্টা করো।');
-  } finally {
     showControls();
-  }
-});
+  });
+  
 
-})();
+  
 
 
 
