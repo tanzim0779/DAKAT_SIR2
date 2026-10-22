@@ -144,3 +144,14 @@ main { display: grid; gap: 16px; margin-top: 16px; }
   0%, 100% { opacity: 1; }
   50%      { opacity: .25; }
 }
+
+
+/* ===== সোশ্যাল বাটন: প্রিমিয়াম সাদা বর্ডার ===== */
+.social .chip::before,
+.social .chip::after {
+  animation: none;
+  background: linear-gradient(135deg, #ffffff, #c9d1ff 50%, #ffffff);
+}
+.social .chip::before { padding: 1.5px; }
+.social .chip::after  { opacity: .45; }
+
