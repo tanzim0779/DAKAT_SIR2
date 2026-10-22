@@ -1,0 +1,35 @@
+
+name: Update YouTube Videos
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */12 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-videos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch YouTube videos
+        run: node scripts/update-videos.mjs
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+
+      - name: Commit updated video data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update YouTube video library"
+          file_pattern: data/videos.json
+          
