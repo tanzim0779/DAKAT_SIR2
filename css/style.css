@@ -115,28 +115,20 @@ main { display: grid; gap: 16px; margin-top: 16px; }
 /* বড় স্ক্রিন */
 @media (min-width: 640px) { .social { grid-template-columns: repeat(6, 1fr); } .nav-item { font-size: .72rem; } }
 
-/* অ্যানিমেশন কমানো */
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
-
-
-
-
-
-/* পুরো বর্ডার একসাথে দপদপ করবে */
-.lit-throb::before, .lit-throb::after {
-  animation: throb 1.8s ease-in-out infinite;
-}
-@keyframes throb {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: .25; }
-}
-  
-
-
-
-/* সব রঙের স্থির প্রিমিয়াম বর্ডার */
-.lit-rainbow::before, .lit-rainbow::after {
+/* ===== স্থির জ্বলা বর্ডার (ঘোরে না) ===== */
+.lit::before, .lit::after {
   animation: none;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+}
+.lit::after { opacity: .6; }
+
+/* রং বেছে নেওয়ার জন্য */
+.lit-gold::before,   .lit-gold::after   { background: linear-gradient(135deg, var(--c3), #ff8a3d); }
+.lit-cyan::before,   .lit-cyan::after   { background: var(--c1); }
+.lit-violet::before, .lit-violet::after { background: var(--c2); }
+
+/* সব রঙের প্রিমিয়াম বর্ডার */
+.lit-rainbow::before, .lit-rainbow::after {
   background: conic-gradient(from 0deg,
     #ff3d6e, #ff8a3d, #ffc857, #5bff8a,
     #22e3ff, #3b7bff, #8b5cf6, #ff4fd8, #ff3d6e);
@@ -144,5 +136,11 @@ main { display: grid; gap: 16px; margin-top: 16px; }
 .lit-rainbow::before { padding: 2px; }
 .lit-rainbow::after  { opacity: .75; }
 
-
-
+/* দপদপ করা আলো (সবার শেষে থাকবে) */
+.lit-throb::before, .lit-throb::after {
+  animation: throb 1.8s ease-in-out infinite;
+}
+@keyframes throb {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .25; }
+}
