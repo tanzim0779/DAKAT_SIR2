@@ -205,17 +205,37 @@
 
 
   
-  $('#back').addEventListener('click', () => ready && player.seekTo(player.getCurrentTime() - 10, true));
-  $('#fwd').addEventListener('click', () => ready && player.seekTo(player.getCurrentTime() + 10, true));
-  seek.addEventListener('input', () => { dragging = true; seek.style.setProperty('--p', seek.value / 10 + '%'); });
-  seek.addEventListener('change', () => { if (ready) player.seekTo(seek.value / 1000 * player.getDuration(), true); dragging = false; });
-  $('#speed').addEventListener('click', () => { if (!ready) return; si = (si + 1) % SPEEDS.length; player.setPlaybackRate(SPEEDS[si]); $('#speed').textContent = SPEEDS[si] + 'x'; });
 
-  const st = $('#stage'), reqFs = st.requestFullscreen || st.webkitRequestFullscreen;
-  if (!reqFs) $('#fs').hidden = true;
-  $('#fs').addEventListener('click', () => {
-    if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-    else reqFs.call(st);
+  const st = $('#stage');
+
+  $('#fs').addEventListener('click', async () => {
+    try {
+      const isFs =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
+
+      if (isFs) {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      } else {
+        if (st.requestFullscreen) {
+          await st.requestFullscreen();
+        } else if (st.webkitRequestFullscreen) {
+          st.webkitRequestFullscreen();
+        } else {
+          // Fullscreen API না থাকলে ভিডিও চালু রেখেই
+          // ফোনের Landscape Rotation ব্যবহার করা যাবে।
+          if (screen.orientation?.lock) {
+            await screen.orientation.lock('landscape');
+          }
+        }
+      }
+    } catch (err) {
+      console.log('Fullscreen:', err);
+    }
+
+    showControls();
   });
-})();
-                                                                              
