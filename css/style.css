@@ -164,11 +164,18 @@ main { display: grid; gap: 16px; margin-top: 16px; }
 
 
 
+/* ===== AI কার্ড: লাল স্থির বর্ডার ===== */
+.ai.glow::before,
+.ai.glow::after {
+  animation: none !important;
+  background: linear-gradient(135deg, #ff2d4d, #ff8a8a 50%, #ff2d4d) !important;
+}
+.ai.glow::after { opacity: .6; }
 
-/* ===== AI কার্ড: লাল বর্ডার ===== */
-.ai::before, .ai::after { ... }
-.ai::after { opacity: .6; }
-
-/* ===== About কার্ড: আলো ঘোরা বন্ধ ===== */
-.about .card::before, .about .card::after { ... }
-.about .card::after { opacity: .5; }
+/* ===== About College ও University: ঘোরা বন্ধ ===== */
+.about .card.glow::before,
+.about .card.glow::after {
+  animation: none !important;
+  background: linear-gradient(135deg, #22e3ff, #8b5cf6) !important;
+}
+.about .card.glow::after { opacity: .5; }
