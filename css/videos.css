@@ -75,32 +75,20 @@
 
 
 
-.shield {
-  position: absolute;
-  z-index: 2;
-  inset: 0 0 74px 0;
-  background: transparent;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.ctrl {
-  position: absolute;
-  z-index: 6;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 18px 10px 6px;
-  background: linear-gradient(transparent, rgba(0,0,0,.9));
-  transition: opacity .2s ease;
-}
 
 .stage.controls-hidden .ctrl,
 .stage.controls-hidden .video-nav {
   opacity: 0;
   pointer-events: none;
+  transition: opacity .2s ease;
 }
 
-.video-nav {
-  z-index: 5;
+.stage .ctrl,
+.stage .video-nav {
+  transition: opacity .2s ease;
 }
+
+.shield {
+  touch-action: manipulation;
+}
+
