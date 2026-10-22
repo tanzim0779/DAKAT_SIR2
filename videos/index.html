@@ -2,13 +2,54 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ভিডিও – Dakat Sir</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070a1c">
+<title>ভিডিও – Dakat Sir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<link rel="stylesheet" href="../css/videos.css?v=1">
 </head>
 <body>
-  <h1>Dakat Sir – ভিডিও লাইব্রেরি</h1>
-  <p>ভিডিও পেজ তৈরি হয়েছে।</p>
+<div class="aurora" aria-hidden="true"></div>
+<div class="app">
+  <header class="vtop">
+    <a class="icon-btn glow" href="../index.html" aria-label="হোমে ফিরুন"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+    <div class="brand glow"><span class="brand-dot"></span><span class="brand-name">ভিডিও পড়াশোনা</span></div>
+  </header>
+
+  <section class="pwrap glow" id="pwrap">
+    <div class="stage" id="stage">
+      <div id="yt"></div>
+      <div class="idle" id="idle">নিচ থেকে একটা ভিডিও বেছে নিন</div>
+      <div class="shield" id="shield"></div>
+      <div class="ctrl">
+        <input class="seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="ভিডিওর সময়">
+        <div class="crow">
+          <button class="cb" id="back" aria-label="১০ সেকেন্ড পিছনে">−১০</button>
+          <button class="cb" id="pp" aria-label="চালান/থামান"></button>
+          <button class="cb" id="fwd" aria-label="১০ সেকেন্ড সামনে">+১০</button>
+          <span class="time" id="tm">0:00 / 0:00</span>
+          <span class="sp"></span>
+          <button class="cb" id="speed" aria-label="গতি">1x</button>
+          <button class="cb" id="fs" aria-label="ফুলস্ক্রিন"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="meta"><h2 id="vtitle">কোনো ভিডিও চালু নেই</h2><p id="vch"></p></div>
+  </section>
+
+  <label class="search glow">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+    <input id="q" type="search" placeholder="ভিডিও খুঁজুন…" autocomplete="off">
+  </label>
+  <div class="chips" id="chips"></div>
+  <p class="count" id="count"></p>
+  <div class="vlist" id="vlist"><p class="note">ভিডিও লোড হচ্ছে…</p></div>
+  <button class="more" id="more" hidden>আরও দেখান</button>
+</div>
+<script src="../js/videos.js"></script>
 </body>
 </html>
-      
