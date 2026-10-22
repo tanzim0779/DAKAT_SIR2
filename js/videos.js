@@ -104,17 +104,21 @@
   
   
   
+
 const toggle = () => {
   if (!ready) return;
-  player.getPlayerState() === 1
-    ? player.pauseVideo()
-    : player.playVideo();
-};
 
-$('#pp').addEventListener('click', toggle);
+  if (player.getPlayerState() === 1) {
+    player.pauseVideo();
+  } else {
+    player.playVideo();
+  }
+};
 
 const stage = $('#stage');
 const shield = $('#shield');
+
+$('#pp').addEventListener('click', toggle);
 
 shield.addEventListener('click', (e) => {
   if (e.target !== shield) return;
@@ -123,33 +127,19 @@ shield.addEventListener('click', (e) => {
   const x = e.clientX - r.left;
   const y = e.clientY - r.top;
 
-  const centerX = r.width / 2;
-  const centerY = r.height / 2;
+  const center =
+    Math.abs(x - r.width / 2) < r.width * 0.18 &&
+    Math.abs(y - r.height / 2) < r.height * 0.20;
 
-  // মাঝের অংশে ট্যাপ করলে Play / Pause
-  if (
-    Math.abs(x - centerX) < r.width * 0.18 &&
-    Math.abs(y - centerY) < r.height * 0.20
-  ) {
+  if (center) {
     toggle();
   }
 
-  // অন্য জায়গায় ট্যাপ করলে Pause নয়
-  // কন্ট্রোল দেখানো বা লুকানো হবে
   stage.classList.toggle('controls-hidden');
 });
 
-// কন্ট্রোল ব্যবহার করলে আবার দৃশ্যমান হবে
-stage.querySelectorAll('.ctrl button, .seek, .video-nav button')
-  .forEach((el) => {
-    el.addEventListener('click', () => {
-      stage.classList.remove('controls-hidden');
-    });
-    el.addEventListener('touchstart', () => {
-      stage.classList.remove('controls-hidden');
-    }, { passive: true });
-  });
 
+  
 
 
 
