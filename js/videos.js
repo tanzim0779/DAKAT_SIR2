@@ -105,41 +105,84 @@
   
   
 
-const toggle = () => {
-  if (!ready) return;
 
-  if (player.getPlayerState() === 1) {
-    player.pauseVideo();
-  } else {
-    player.playVideo();
-  }
-};
+$('#pp').addEventListener('click', toggle);
 
 const stage = $('#stage');
 const shield = $('#shield');
 
-$('#pp').addEventListener('click', toggle);
+let hideControlsTimer;
+let tapTimer;
+let lastTapZone = '';
+let lastTapTime = 0;
 
-shield.addEventListener('click', (e) => {
-  if (e.target !== shield) return;
+function showControls() {
+  stage.classList.remove('controls-hidden');
+  clearTimeout(hideControlsTimer);
+
+  hideControlsTimer = setTimeout(() => {
+    stage.classList.add('controls-hidden');
+  }, 2500);
+}
+
+shield.addEventListener('pointerup', (e) => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
 
   const r = stage.getBoundingClientRect();
   const x = e.clientX - r.left;
   const y = e.clientY - r.top;
 
-  const center =
-    Math.abs(x - r.width / 2) < r.width * 0.18 &&
-    Math.abs(y - r.height / 2) < r.height * 0.20;
+  const zone =
+    x < r.width * 0.33 ? 'left' :
+    x > r.width * 0.67 ? 'right' : 'center';
 
-  if (center) {
-    toggle();
+  const now = Date.now();
+
+  if (
+    zone !== 'center' &&
+    zone === lastTapZone &&
+    now - lastTapTime < 320
+  ) {
+    clearTimeout(tapTimer);
+    lastTapZone = '';
+    lastTapTime = 0;
+
+    if (ready) {
+      const current = player.getCurrentTime();
+      const duration = player.getDuration();
+
+      player.seekTo(
+        Math.max(0, Math.min(duration, current + (zone === 'right' ? 10 : -10))),
+        true
+      );
+    }
+
+    showControls();
+    return;
   }
 
-  stage.classList.toggle('controls-hidden');
+  clearTimeout(tapTimer);
+  lastTapZone = zone;
+  lastTapTime = now;
+
+  tapTimer = setTimeout(() => {
+    if (zone === 'center') {
+      toggle();
+    }
+
+    showControls();
+    lastTapZone = '';
+  }, 220);
 });
 
+stage.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('.ctrl, .video-nav')) {
+    showControls();
+  }
+});
 
-  
+showControls();
+
 
 
 
