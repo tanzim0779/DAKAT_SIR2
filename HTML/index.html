@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070a1c">
+<title>Dakat Sir – হোম</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="aurora" aria-hidden="true"></div>
+
+<div class="app">
+  <!-- উপরের বার -->
+  <header class="topbar">
+    <a class="brand glow" href="index.html" aria-label="Dakat Sir হোম">
+      <span class="brand-dot"></span><span class="brand-name">Dakat Sir</span>
+    </a>
+    <button class="icon-btn glow" id="menuBtn" aria-label="মেনু">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <button class="icon-btn glow" id="searchBtn" aria-label="সার্চ">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- থিওরি → প্র্যাকটিস → এক্সাম -->
+    <section class="hero glow" aria-label="শেখার ধাপ">
+      <button class="step" data-go="theory"><span class="step-ico">📘</span><b>Theory</b><small>থিওরি</small></button>
+      <svg class="bolt" viewBox="0 0 40 80" aria-hidden="true"><path d="M26 2 8 44h14L12 78 34 32H20z"/></svg>
+      <button class="step" data-go="practice"><span class="step-ico">✍️</span><b>Practice</b><small>প্র্যাকটিস</small></button>
+      <svg class="bolt" viewBox="0 0 40 80" aria-hidden="true"><path d="M26 2 8 44h14L12 78 34 32H20z"/></svg>
+      <button class="step" data-go="exam"><span class="step-ico">🏆</span><b>Exam</b><small>এক্সাম</small></button>
+    </section>
+
+    <!-- সোশ্যাল / বাইরের লিংক -->
+    <section class="social" aria-label="যোগাযোগ">
+      <button class="chip glow c-yt"  data-link="youtube"><i>▶</i>YouTube</button>
+      <button class="chip glow c-tt"  data-link="tiktok"><i>♪</i>TikTok</button>
+      <button class="chip glow c-wa"  data-link="whatsapp"><i>✆</i>WhatsApp</button>
+      <button class="chip glow c-fbg" data-link="facebookGroup"><i>👥</i>Facebook<br>Group</button>
+      <button class="chip glow c-fbp" data-link="facebookPage"><i>f</i>Facebook<br>Page</button>
+      <button class="chip glow c-gg"  data-link="google"><i>G</i>Google</button>
+    </section>
+
+    <!-- AI কার্ড -->
+    <section class="ai glow" aria-label="AI সহায়ক">
+      <div class="ai-orb" aria-hidden="true"></div>
+      <div>
+        <h2>AI সহায়ক</h2>
+        <p>পড়ার প্রশ্নের উত্তর দেবে – এখন নয়, শীঘ্রই আসছে</p>
+      </div>
+      <span class="badge">Coming soon</span>
+    </section>
+
+    <!-- কলেজ / বিশ্ববিদ্যালয় -->
+    <section class="about">
+      <button class="card glow" data-go="aboutCollege"><span>🏫</span><b>About College</b><small>কলেজ সম্পর্কে</small></button>
+      <button class="card glow" data-go="aboutUniversity"><span>🎓</span><b>About University</b><small>বিশ্ববিদ্যালয় সম্পর্কে</small></button>
+    </section>
+  </main>
+</div>
+
+<!-- নিচের নেভিগেশন -->
+<nav class="bottom-nav glow" aria-label="প্রধান মেনু">
+  <button class="nav-item active" data-go="home" aria-label="হোম"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>হোম</span></button>
+  <button class="nav-item" data-go="course" aria-label="কোর্স"><svg viewBox="0 0 24 24"><path d="M2 5.5C5 4 8.5 4 12 6c3.5-2 7-2 10-.5V19c-3-1.5-6.5-1.5-10 .5-3.5-2-7-2-10-.5z"/><path d="M12 6v13.5"/></svg><span>কোর্স</span></button>
+  <button class="nav-item" data-go="exam" aria-label="এক্সাম"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg><span>এক্সাম</span></button>
+  <button class="nav-item" data-go="progress" aria-label="প্রোগ্রেস ও মেসেজ"><svg viewBox="0 0 24 24"><path d="M3 17 9 11l4 4 8-9"/><path d="M15 6h6v6"/></svg><span>প্রোগ্রেস</span></button>
+  <button class="nav-item" data-go="download" aria-label="ডাউনলোড"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg><span>ডাউনলোড</span></button>
+  <button class="nav-item" data-go="library" aria-label="লাইব্রেরি"><svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4z"/><path d="m16.5 5.5 3.8-1 3 14.5-3.8 1z" transform="translate(-2 0)"/></svg><span>লাইব্রেরি</span></button>
+  <button class="nav-item" data-go="profile" aria-label="প্রোফাইল"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/></svg><span>প্রোফাইল</span></button>
+</nav>
+
+<!-- সাইড মেনু -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head"><b>মেনু</b><button class="icon-btn" id="drawerClose" aria-label="বন্ধ করুন">✕</button></div>
+  <ul id="drawerList"></ul>
+</aside>
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+  </html>
 
