@@ -206,39 +206,40 @@
 
   
 
-  const st = $('#stage');
+  
+const st = $('#stage');
 
-  $('#fs').addEventListener('click', async () => {
-    try {
-      const isFs =
-        document.fullscreenElement ||
-        document.webkitFullscreenElement;
-
-      if (isFs) {
-        if (document.exitFullscreen) {
-          await document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        }
-      } else {
-        if (st.requestFullscreen) {
-          await st.requestFullscreen();
-        } else if (st.webkitRequestFullscreen) {
-          st.webkitRequestFullscreen();
-        } else {
-          // Fullscreen API না থাকলে ভিডিও চালু রেখেই
-          // ফোনের Landscape Rotation ব্যবহার করা যাবে।
-          if (screen.orientation?.lock) {
-            await screen.orientation.lock('landscape');
-          }
-        }
+$('#fs').addEventListener('click', async () => {
+  try {
+    if (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement
+    ) {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
       }
-    } catch (err) {
-      console.log('Fullscreen:', err);
+      return;
     }
 
+    if (st.requestFullscreen) {
+      await st.requestFullscreen();
+    } else if (st.webkitRequestFullscreen) {
+      st.webkitRequestFullscreen();
+    } else {
+      alert('এই ব্রাউজারে Fullscreen সাপোর্ট করছে না।');
+    }
+  } catch (err) {
+    console.error('Fullscreen error:', err);
+    alert('Fullscreen চালু হয়নি। ভিডিও পেজটি Chrome-এ খুলে চেষ্টা করো।');
+  } finally {
     showControls();
-  });
+  }
+});
+
+})();
+
 
 
 
@@ -297,4 +298,3 @@
     showControls();
   });
 
-})();
