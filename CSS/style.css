@@ -1,1 +1,120 @@
+/* ===== রং ও ভ্যারিয়েবল ===== */
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 
+:root {
+  --bg: #070a1c;
+  --card: #0f1430;
+  --card-2: #141a3d;
+  --text: #eef1ff;
+  --muted: #9aa3d0;
+  --c1: #22e3ff;   /* সায়ান */
+  --c2: #8b5cf6;   /* বেগুনি */
+  --c3: #ffc857;   /* সোনালি */
+  --r: 20px;
+  --font: 'Hind Siliguri', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font); color: var(--text); background: var(--bg);
+  min-height: 100vh; padding-bottom: 110px; overflow-x: hidden;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--c3); outline-offset: 3px; }
+
+/* পেছনের আলো */
+.aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+.aurora::before, .aurora::after {
+  content: ''; position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; filter: blur(90px); opacity: .35;
+}
+.aurora::before { background: radial-gradient(circle, var(--c2), transparent 65%); top: -30vmax; left: -25vmax; animation: drift 18s ease-in-out infinite alternate; }
+.aurora::after  { background: radial-gradient(circle, var(--c1), transparent 65%); bottom: -35vmax; right: -30vmax; animation: drift 22s ease-in-out infinite alternate-reverse; }
+@keyframes drift { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
+
+.app { max-width: 720px; margin: 0 auto; padding: 14px 14px 0; }
+main { display: grid; gap: 16px; margin-top: 16px; }
+
+/* ===== ঘুরন্ত আলোর বর্ডার (সবখানে .glow) ===== */
+.glow { position: relative; background: var(--card); border-radius: var(--r); isolation: isolate; }
+.glow::before, .glow::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; z-index: -1;
+  background: conic-gradient(from var(--a), transparent 0 62%, var(--c2) 76%, var(--c1) 90%, #fff 99%, transparent);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: spin 4.5s linear infinite;
+}
+.glow::after { filter: blur(7px); padding: 3px; opacity: .85; }
+@keyframes spin { to { --a: 360deg; } }
+
+/* ===== উপরের বার ===== */
+.topbar { display: grid; grid-template-columns: 1fr 56px 56px; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 0 18px; height: 56px; text-decoration: none; color: inherit; }
+.brand-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--c3); box-shadow: 0 0 12px var(--c3); animation: pulse 2.2s ease-in-out infinite; }
+.brand-name { font-weight: 700; font-size: 1.25rem; letter-spacing: .3px; background: linear-gradient(90deg, #fff, var(--c1)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@keyframes pulse { 50% { transform: scale(1.5); opacity: .6; } }
+.icon-btn { height: 56px; display: grid; place-items: center; }
+.icon-btn:active { transform: scale(.94); }
+
+/* ===== হিরো: থিওরি → প্র্যাকটিস → এক্সাম ===== */
+.hero { display: flex; align-items: center; justify-content: space-around; padding: 26px 10px; background: linear-gradient(160deg, var(--card-2), var(--card)); }
+.step { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; min-width: 84px; }
+.step-ico { width: 64px; height: 64px; display: grid; place-items: center; font-size: 1.9rem; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(139,92,246,.5), rgba(34,227,255,.12)); box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 0 26px rgba(139,92,246,.45); transition: transform .25s; }
+.step:hover .step-ico, .step:active .step-ico { transform: scale(1.12) rotate(-4deg); }
+.step b { font-size: 1.05rem; }
+.step small { color: var(--muted); font-size: .8rem; }
+.bolt { width: 30px; height: 60px; flex: none; fill: var(--c3); stroke: none; filter: drop-shadow(0 0 8px var(--c3)); animation: zap 2.4s infinite; }
+.bolt:nth-of-type(2) { animation-delay: 1.2s; }
+@keyframes zap { 0%, 60%, 100% { opacity: .45; } 65% { opacity: 1; } 70% { opacity: .5; } 75% { opacity: 1; } }
+
+/* ===== সোশ্যাল ===== */
+.social { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.chip { display: grid; justify-items: center; align-content: center; gap: 4px; min-height: 84px; padding: 10px 6px; font-weight: 600; font-size: .9rem; line-height: 1.15; text-align: center; transition: transform .2s; }
+.chip:active { transform: scale(.95); }
+.chip i { font-style: normal; font-size: 1.3rem; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: var(--k); color: #fff; box-shadow: 0 0 16px -2px var(--k); }
+.c-yt { --k: #ff2d3d; } .c-tt { --k: #12d6c8; } .c-wa { --k: #25d366; }
+.c-fbg { --k: #3b7bff; } .c-fbp { --k: #1877f2; } .c-gg { --k: #f5a623; }
+
+/* ===== AI কার্ড ===== */
+.ai { display: flex; align-items: center; gap: 16px; padding: 22px 18px; background: linear-gradient(120deg, #1a1450, var(--card)); overflow: hidden; }
+.ai h2 { font-size: 1.25rem; }
+.ai p { color: var(--muted); font-size: .88rem; margin-top: 2px; }
+.ai-orb { flex: none; width: 54px; height: 54px; border-radius: 50%; background: conic-gradient(from var(--a), var(--c1), var(--c2), var(--c3), var(--c1)); animation: spin 5s linear infinite; filter: blur(.3px) drop-shadow(0 0 14px var(--c2)); }
+.badge { margin-left: auto; flex: none; padding: 5px 10px; font-size: .72rem; font-weight: 600; border-radius: 99px; color: #1b1300; background: var(--c3); }
+
+/* ===== About কার্ড ===== */
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card { display: grid; justify-items: start; gap: 2px; padding: 20px 16px; min-height: 140px; text-align: left; align-content: end; transition: transform .2s; background: linear-gradient(170deg, var(--card-2), var(--card)); }
+.card span { font-size: 2rem; margin-bottom: 8px; }
+.card b { font-size: 1.1rem; }
+.card small { color: var(--muted); }
+.card:active { transform: scale(.97); }
+
+/* ===== নিচের নেভিগেশন ===== */
+.bottom-nav { position: fixed; z-index: 20; left: 50%; transform: translateX(-50%); bottom: calc(10px + env(safe-area-inset-bottom, 0px)); width: min(704px, calc(100% - 20px)); display: grid; grid-template-columns: repeat(7, 1fr); padding: 8px 4px; border-radius: 28px; background: rgba(15,20,48,.88); backdrop-filter: blur(14px); }
+.nav-item { display: grid; justify-items: center; gap: 3px; padding: 6px 0; color: var(--muted); font-size: .62rem; transition: color .2s, transform .2s; }
+.nav-item svg { width: 23px; height: 23px; }
+.nav-item:active { transform: scale(.9); }
+.nav-item.active { color: var(--c1); }
+.nav-item.active svg { filter: drop-shadow(0 0 7px var(--c1)); }
+
+/* ===== সাইড মেনু, টোস্ট ===== */
+.scrim { position: fixed; inset: 0; z-index: 30; background: rgba(3,5,15,.6); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.scrim.show { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; z-index: 31; top: 0; bottom: 0; left: 0; width: min(300px, 82vw); padding: 18px; background: var(--card); border-right: 1px solid rgba(139,92,246,.4); transform: translateX(-102%); transition: transform .3s; overflow-y: auto; }
+.drawer.open { transform: none; }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 1.2rem; }
+.drawer-head .icon-btn { height: 40px; width: 40px; }
+.drawer ul { list-style: none; padding: 0; display: grid; gap: 6px; }
+.drawer li button { width: 100%; text-align: left; padding: 13px 14px; border-radius: 12px; }
+.drawer li button:hover { background: rgba(139,92,246,.2); }
+.toast { position: fixed; z-index: 40; left: 50%; bottom: 112px; transform: translate(-50%, 20px); padding: 10px 18px; border-radius: 99px; background: var(--c3); color: #1b1300; font-weight: 600; font-size: .9rem; opacity: 0; pointer-events: none; transition: .3s; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* বড় স্ক্রিন */
+@media (min-width: 640px) { .social { grid-template-columns: repeat(6, 1fr); } .nav-item { font-size: .72rem; } }
+
+/* অ্যানিমেশন কমানো */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
+  
