@@ -209,7 +209,11 @@
 
   $('#fs').addEventListener('click', async () => {
     try {
-      if (document.fullscreenElement || document.webkitFullscreenElement) {
+      const fullscreen =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
+
+      if (fullscreen) {
         if (document.exitFullscreen) {
           await document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
@@ -219,14 +223,16 @@
         await st.requestFullscreen();
       } else if (st.webkitRequestFullscreen) {
         st.webkitRequestFullscreen();
+      } else {
+        alert('এই ব্রাউজারে Fullscreen সমর্থিত নয়।');
       }
-    } catch (err) {
-      console.error('Fullscreen error:', err);
+    } catch (error) {
+      console.error('Fullscreen error:', error);
+      alert('Fullscreen চালু হয়নি। Chrome-এ চেষ্টা করো।');
     }
 
     showControls();
   });
-  
 
   
 
