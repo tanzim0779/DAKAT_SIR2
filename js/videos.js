@@ -122,34 +122,57 @@
   const shield = $('#shield');
 
 
-    // Screen lock / unlock
+    
+  // Screen lock / unlock
   const lockBtn = $('#lockBtn');
   const lockOverlay = $('#lockOverlay');
   const unlockBtn = $('#unlockBtn');
   let screenLocked = false;
+  let unlockHintTimer = null;
+
+  function hideUnlockHint() {
+    if (screenLocked) {
+      lockOverlay.classList.add('hint-hidden');
+    }
+  }
 
   lockBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     screenLocked = true;
-    lockOverlay.hidden = false;
     lockBtn.hidden = true;
+    lockOverlay.hidden = false;
+    lockOverlay.classList.remove('hint-hidden');
     stage.classList.add('controls-hidden');
     clearTimeout(hideControlsTimer);
+
+    clearTimeout(unlockHintTimer);
+    unlockHintTimer = setTimeout(hideUnlockHint, 2000);
   });
+
+  stage.addEventListener('pointerup', (e) => {
+    if (!screenLocked) return;
+    if (e.target.closest('#unlockBtn')) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    lockOverlay.hidden = false;
+    lockOverlay.classList.remove('hint-hidden');
+
+    clearTimeout(unlockHintTimer);
+    unlockHintTimer = setTimeout(hideUnlockHint, 2000);
+  }, true);
 
   unlockBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-
-  screenLocked = false;
-  lockOverlay.hidden = true;
-  lockBtn.hidden = false;
-
-  showControls();
-});
-
-  lockOverlay.addEventListener('pointerup', (e) => {
     e.stopPropagation();
+    screenLocked = false;
+    clearTimeout(unlockHintTimer);
+    lockOverlay.hidden = true;
+    lockOverlay.classList.remove('hint-hidden');
+    lockBtn.hidden = false;
+    showControls();
   });
+
 
   let hideControlsTimer = null;
   let tapTimer = null;
