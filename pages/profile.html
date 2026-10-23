@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070a1c">
+  <title>Dakat Sir — Profile</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px; min-height: 100vh;
+      display: grid; place-items: center;
+      font-family: Arial, sans-serif; color: #f8fafc;
+      background: #070a1c;
+    }
+    .card {
+      width: 100%; max-width: 440px; padding: 25px;
+      border: 1px solid #29345a; border-radius: 18px;
+      background: #10172e;
+    }
+    h1 { margin-top: 0; }
+    p { line-height: 1.6; color: #cbd5e1; overflow-wrap: anywhere; }
+    label { display: block; margin: 14px 0 6px; }
+    input, textarea {
+      width: 100%; padding: 12px; border-radius: 9px;
+      border: 1px solid #475569; background: #070a1c;
+      color: white; font: inherit;
+    }
+    button, .link {
+      display: inline-block; text-align: center; text-decoration: none;
+      border: 0; border-radius: 9px; padding: 12px 16px;
+      margin-top: 14px; background: #16a34a; color: white;
+      font-weight: bold; cursor: pointer;
+    }
+    button:disabled { opacity: .6; }
+    .secondary { background: #334155; }
+    #status { overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>👤 Dakat Sir Profile</h1>
+    <p id="status" role="status" aria-live="polite">সেশন যাচাই হচ্ছে...</p>
+
+    <section id="profileArea" hidden>
+      <p id="emailView"></p>
+
+      <form id="profileForm">
+        <label for="displayName">তোমার নাম</label>
+        <input id="displayName" maxlength="60" required>
+
+        <label for="bio">নিজের সম্পর্কে</label>
+        <textarea id="bio" maxlength="300" rows="3"
+          placeholder="সংক্ষেপে নিজের সম্পর্কে লেখো"></textarea>
+
+        <button id="saveBtn" type="submit">প্রোফাইল Save</button>
+      </form>
+
+      <button id="logoutBtn" class="secondary" type="button">Logout</button>
+    </section>
+
+    <section id="loginArea" hidden>
+      <p>আগে Community-তে Login করে থাকলে একই ব্রাউজারে তোমার সেশন এখানে ব্যবহার হবে।</p>
+      <a class="link" href="../community/">Community-তে যাও</a>
+    </section>
+
+    <p><a class="link secondary" href="../">হোমে ফিরে যাও</a></p>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const supabase = createClient(
+      'https://yrkkqpmmrhpslzdskczs.supabase.co',
+      'sb_publishable_9U_CKwSUvw7Q_iIrRfY6AQ_xWG860Tu'
+    );
+
+    const $ = id => document.getElementById(id);
+    let currentUser = null;
+
+    async function loadProfile(user) {
+      currentUser = user;
+      $('profileArea').hidden = false;
+      $('loginArea').hidden = true;
+      $('emailView').textContent = 'ইমেইল: ' + (user.email || '');
+      $('status').textContent = 'লগইন সফল ✅';
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('display_name, bio')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        $('status').textContent =
+          'প্রোফাইল লোড করা যায়নি: ' + error.message;
+        return;
+      }
+
+      $('displayName').value =
+        data?.display_name || user.user_metadata?.display_name || '';
+      $('bio').value = data?.bio || '';
+    }
+
+    async function refreshSession() {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        $('status').textContent = 'সেশন যাচাই করা যায়নি: ' + error.message;
+        return;
+      }
+
+      if (data.session?.user) {
+        await loadProfile(data.session.user);
+      } else {
+        currentUser = null;
+        $('profileArea').hidden = true;
+        $('loginArea').hidden = false;
+        $('status').textContent = 'এখনো লগইন করা নেই।';
+      }
+    }
+
+    $('profileForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!currentUser) return;
+
+      $('saveBtn').disabled = true;
+      $('status').textContent = 'Save হচ্ছে...';
+
+      const { error } = await supabase.from('profiles').upsert({
+        id: currentUser.id,
+        display_name: $('displayName').value.trim(),
+        bio: $('bio').value.trim()
+      });
+
+      $('saveBtn').disabled = false;
+      $('status').textContent = error
+        ? 'Save হয়নি: ' + error.message
+        : 'প্রোফাইল Save হয়েছে ✅';
+    });
+
+    $('logoutBtn').addEventListener('click', async () => {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        $('status').textContent = 'Logout হয়নি: ' + error.message;
+        return;
+      }
+      await refreshSession();
+      $('status').textContent = 'Logout সফল হয়েছে।';
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        loadProfile(session.user);
+      } else {
+        currentUser = null;
+        $('profileArea').hidden = true;
+        $('loginArea').hidden = false;
+        $('status').textContent = 'এখনো লগইন করা নেই।';
+      }
+    });
+
+    await refreshSession();
+  </script>
+</body>
+</html>
