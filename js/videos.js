@@ -127,13 +127,15 @@
   let lastTapTime = 0;
 
   function showControls() {
-    stage.classList.remove('controls-hidden');
-    clearTimeout(hideControlsTimer);
+  stage.classList.remove('controls-hidden');
+  clearTimeout(hideControlsTimer);
 
-    hideControlsTimer = setTimeout(() => {
+  hideControlsTimer = setTimeout(() => {
+    if (ready && player && player.getPlayerState() === 1) {
       stage.classList.add('controls-hidden');
-    }, 2500);
-  }
+    }
+  }, 2500);
+}
 
   $('#pp').addEventListener('click', () => {
     toggle();
