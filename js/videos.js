@@ -141,64 +141,60 @@
   });
 
   shield.addEventListener('pointerup', (e) => {
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-    const r = stage.getBoundingClientRect();
-    const x = e.clientX - r.left;
+  const r = stage.getBoundingClientRect();
+  const x = e.clientX - r.left;
 
-    const zone =
-      x < r.width / 3 ? 'left' :
-      x > r.width * 2 / 3 ? 'right' : 'center';
+  const zone =
+    x < r.width / 3 ? 'left' :
+    x > r.width * 2 / 3 ? 'right' : 'center';
 
-    const now = Date.now();
+  const now = Date.now();
 
-    if (
-      zone !== 'center' &&
-      zone === lastTapZone &&
-      now - lastTapTime < 320
-    ) {
-      clearTimeout(tapTimer);
-      lastTapZone = '';
-      lastTapTime = 0;
-
-      if (ready && player) {
-        const current = player.getCurrentTime();
-        const duration = player.getDuration();
-
-        player.seekTo(
-          Math.max(0, Math.min(
-            duration,
-            current + (zone === 'right' ? 10 : -10)
-          )),
-          true
-        );
-      }
-
-      showControls();
-      return;
-    }
-
+  // মাঝখানে একবার টাচ: Pause / Play
+  if (zone === 'center') {
     clearTimeout(tapTimer);
-    lastTapZone = zone;
-    lastTapTime = now;
+    lastTapZone = '';
+    lastTapTime = 0;
+    toggle();
+    showControls();
+    return;
+  }
 
-    tapTimer = setTimeout(() => {
-      if (zone === 'center') toggle();
+  // পাশে ডাবল টাচ: ১০ সেকেন্ড সামনে / পিছনে
+  if (zone === lastTapZone && now - lastTapTime < 320) {
+    clearTimeout(tapTimer);
+    lastTapZone = '';
+    lastTapTime = 0;
 
-      showControls();
-      lastTapZone = '';
-      lastTapTime = 0;
-    }, 330);
-  });
+    if (ready && player) {
+      const current = player.getCurrentTime();
+      const duration = player.getDuration();
 
-  stage.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.ctrl, .video-nav')) {
-      showControls();
+      player.seekTo(
+        Math.max(0, Math.min(
+          duration,
+          current + (zone === 'right' ? 10 : -10)
+        )),
+        true
+      );
     }
-  });
 
-  showControls();
+    showControls();
+    return;
+  }
 
+  lastTapZone = zone;
+  lastTapTime = now;
+
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(() => {
+    showControls();
+    lastTapZone = '';
+    lastTapTime = 0;
+  }, 320);
+});
 
 
 
