@@ -164,10 +164,15 @@
 }
 
 
+#lockOverlay.hint-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#lockOverlay {
+  transition: opacity 0.2s ease;
+}
+
 #lockOverlay[hidden] {
   display: none !important;
 }
-
-
-
-
