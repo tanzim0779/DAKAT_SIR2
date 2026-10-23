@@ -1006,6 +1006,9 @@ console.log("LOGIN SESSION:", sessionCheck.session);
 
       setLoggedInUI(user);
 
+      console.log("USER:", user);
+console.log("FEED HIDDEN:", $("#feedSection").hidden);
+
       if (user) {
         try {
           await loadProfile(user);
