@@ -171,6 +171,7 @@
   });
 
   shield.addEventListener('pointerup', (e) => {
+        if (screenLocked) return;
   if (e.pointerType === 'mouse' && e.button !== 0) return;
 
   const r = stage.getBoundingClientRect();
