@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -9,13 +8,13 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 24px; min-height: 100vh;
+      margin: 0; padding: 20px; min-height: 100vh;
       display: grid; place-items: center;
       font-family: Arial, sans-serif; color: #f8fafc;
       background: #070a1c;
     }
     .card {
-      width: 100%; max-width: 440px; padding: 25px;
+      width: 100%; max-width: 440px; padding: 24px;
       border: 1px solid #29345a; border-radius: 18px;
       background: #10172e;
     }
@@ -28,20 +27,23 @@
       color: white; font: inherit;
     }
     button, .link {
-      display: inline-block; text-align: center; text-decoration: none;
-      border: 0; border-radius: 9px; padding: 12px 16px;
-      margin-top: 14px; background: #16a34a; color: white;
+      display: inline-block; text-align: center;
+      text-decoration: none; border: 0; border-radius: 9px;
+      padding: 12px 16px; margin-top: 14px;
+      background: #16a34a; color: white;
       font-weight: bold; cursor: pointer;
     }
-    button:disabled { opacity: .6; }
     .secondary { background: #334155; }
-    #status { overflow-wrap: anywhere; }
+    button:disabled { opacity: .6; }
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
   <main class="card">
     <h1>👤 Dakat Sir Profile</h1>
-    <p id="status" role="status" aria-live="polite">সেশন যাচাই হচ্ছে...</p>
+    <p id="status" role="status" aria-live="polite">
+      সেশন যাচাই হচ্ছে...
+    </p>
 
     <section id="profileArea" hidden>
       <p id="emailView"></p>
@@ -57,11 +59,13 @@
         <button id="saveBtn" type="submit">প্রোফাইল Save</button>
       </form>
 
-      <button id="logoutBtn" class="secondary" type="button">Logout</button>
+      <button id="logoutBtn" class="secondary" type="button">
+        Logout
+      </button>
     </section>
 
     <section id="loginArea" hidden>
-      <p>আগে Community-তে Login করে থাকলে একই ব্রাউজারে তোমার সেশন এখানে ব্যবহার হবে।</p>
+      <p>প্রোফাইল দেখতে Community-তে Login করো।</p>
       <a class="link" href="../community/">Community-তে যাও</a>
     </section>
 
@@ -79,13 +83,16 @@
 
     const $ = id => document.getElementById(id);
     let currentUser = null;
+    let loadNumber = 0;
 
     async function loadProfile(user) {
+      const thisLoad = ++loadNumber;
       currentUser = user;
+
       $('profileArea').hidden = false;
       $('loginArea').hidden = true;
       $('emailView').textContent = 'ইমেইল: ' + (user.email || '');
-      $('status').textContent = 'লগইন সফল ✅';
+      $('status').textContent = 'প্রোফাইল লোড হচ্ছে...';
 
       const { data, error } = await supabase
         .from('profiles')
@@ -93,32 +100,36 @@
         .eq('id', user.id)
         .maybeSingle();
 
+      if (thisLoad !== loadNumber) return;
+
       if (error) {
         $('status').textContent =
-          'প্রোফাইল লোড করা যায়নি: ' + error.message;
+          'প্রোফাইল লোড হয়নি: ' + error.message;
         return;
       }
 
       $('displayName').value =
         data?.display_name || user.user_metadata?.display_name || '';
       $('bio').value = data?.bio || '';
+      $('status').textContent = 'প্রোফাইল প্রস্তুত ✅';
     }
 
     async function refreshSession() {
       const { data, error } = await supabase.auth.getSession();
 
       if (error) {
-        $('status').textContent = 'সেশন যাচাই করা যায়নি: ' + error.message;
+        $('status').textContent = 'সেশন সমস্যা: ' + error.message;
         return;
       }
 
       if (data.session?.user) {
         await loadProfile(data.session.user);
       } else {
+        loadNumber++;
         currentUser = null;
         $('profileArea').hidden = true;
         $('loginArea').hidden = false;
-        $('status').textContent = 'এখনো লগইন করা নেই।';
+        $('status').textContent = 'এখনো Login করা নেই।';
       }
     }
 
@@ -127,7 +138,7 @@
       if (!currentUser) return;
 
       $('saveBtn').disabled = true;
-      $('status').textContent = 'Save হচ্ছে...';
+      $('status').textContent = 'প্রোফাইল Save হচ্ছে...';
 
       const { error } = await supabase.from('profiles').upsert({
         id: currentUser.id,
@@ -142,23 +153,27 @@
     });
 
     $('logoutBtn').addEventListener('click', async () => {
+      $('logoutBtn').disabled = true;
       const { error } = await supabase.auth.signOut();
+      $('logoutBtn').disabled = false;
+
       if (error) {
         $('status').textContent = 'Logout হয়নি: ' + error.message;
         return;
       }
+
       await refreshSession();
-      $('status').textContent = 'Logout সফল হয়েছে।';
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        loadProfile(session.user);
+        void loadProfile(session.user);
       } else {
+        loadNumber++;
         currentUser = null;
         $('profileArea').hidden = true;
         $('loginArea').hidden = false;
-        $('status').textContent = 'এখনো লগইন করা নেই।';
+        $('status').textContent = 'এখনো Login করা নেই।';
       }
     });
 
