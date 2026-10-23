@@ -21,9 +21,10 @@ const SITE = {
     exam:            { title: "এক্সাম",              url: "pages/exam.html",             ready: false },
     course:          { title: "কোর্স",               url: "pages/course.html",           ready: false },
     progress:        { title: "প্রোগ্রেস ও মেসেজ",   url: "pages/progress.html",         ready: false },
-    download:        { title: "ডাউনলোড",            url: "pages/download.html",         ready: false },
+    
     library:         { title: "লাইব্রেরি",           url: "pages/library.html",          ready: false },
-    profile:         { title: "প্রোফাইল",            url: "pages/profile.html",          ready: false },
+     community:      { title: "community",            url: "community/index.html",         ready: true },
+    profile:         { title: "প্রোফাইল",              url: "pages/profile.html",             ready: true },
     aboutCollege:    { title: "কলেজ সম্পর্কে",       url: "pages/about-college.html",    ready: false },
     aboutUniversity: { title: "বিশ্ববিদ্যালয় সম্পর্কে", url: "pages/about-university.html", ready: false }
   },
