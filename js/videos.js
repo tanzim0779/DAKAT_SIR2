@@ -121,6 +121,34 @@
   const stage = $('#stage');
   const shield = $('#shield');
 
+
+    // Screen lock / unlock
+  const lockBtn = $('#lockBtn');
+  const lockOverlay = $('#lockOverlay');
+  const unlockBtn = $('#unlockBtn');
+  let screenLocked = false;
+
+  lockBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    screenLocked = true;
+    lockOverlay.hidden = false;
+    lockBtn.hidden = true;
+    stage.classList.add('controls-hidden');
+    clearTimeout(hideControlsTimer);
+  });
+
+  unlockBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    screenLocked = false;
+    lockOverlay.hidden = true;
+    lockBtn.hidden = false;
+    showControls();
+  });
+
+  lockOverlay.addEventListener('pointerup', (e) => {
+    e.stopPropagation();
+  });
+
   let hideControlsTimer = null;
   let tapTimer = null;
   let lastTapZone = '';
