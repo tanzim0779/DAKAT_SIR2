@@ -672,6 +672,9 @@ console.log("LOGIN SESSION:", sessionCheck.session);
           .order('created_at', { ascending: false })
           .limit(50);
 
+        console.log("FEED POSTS:", posts);
+console.log("FEED ERROR:", postsError);
+
         if (postsError) throw postsError;
         if (version !== feedVersion) return;
 
