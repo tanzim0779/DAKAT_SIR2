@@ -92,3 +92,27 @@
   touch-action: manipulation;
 }
 
+
+
+
+
+/* YouTube-এর মতো অটো-হাইড কন্ট্রোল */
+#stage .ctrl {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+#stage.controls-hidden .ctrl {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#stage .video-nav {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+#stage.controls-hidden .video-nav {
+  opacity: 0;
+  pointer-events: none;
+}
