@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAKAT SIR — Community Login</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px;
+      min-height: 100vh; display: grid; place-items: center;
+      font-family: Arial, sans-serif; background: #f1f5f9; color: #172033;
+    }
+    .card {
+      width: 100%; max-width: 420px; background: white;
+      padding: 26px; border-radius: 18px;
+      box-shadow: 0 8px 30px #00000012;
+    }
+    h1 { margin-top: 0; font-size: 25px; }
+    p { line-height: 1.5; color: #64748b; }
+    label { display: block; margin: 15px 0 6px; font-weight: 600; }
+    input {
+      width: 100%; padding: 12px; border: 1px solid #cbd5e1;
+      border-radius: 9px; font-size: 16px;
+    }
+    button {
+      width: 100%; margin-top: 14px; padding: 12px;
+      border: 0; border-radius: 9px; background: #166534;
+      color: white; font-size: 16px; font-weight: 700; cursor: pointer;
+    }
+    button.secondary { background: #334155; }
+    button:disabled { opacity: .6; cursor: wait; }
+    #message { overflow-wrap: anywhere; font-size: 14px; }
+    .small { font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>DAKAT SIR Community</h1>
+    <p>শিক্ষার্থীদের কমিউনিটিতে প্রবেশ করতে লগইন করো অথবা নতুন অ্যাকাউন্ট তৈরি করো।</p>
+
+    <form id="authForm">
+      <label for="name">তোমার নাম (রেজিস্ট্রেশনের জন্য)</label>
+      <input id="name" autocomplete="name" maxlength="60" placeholder="তোমার নাম">
+
+      <label for="email">ইমেইল</label>
+      <input id="email" type="email" autocomplete="email" required placeholder="name@example.com">
+
+      <label for="password">পাসওয়ার্ড</label>
+      <input id="password" type="password" autocomplete="current-password"
+        minlength="8" required placeholder="কমপক্ষে ৮ অক্ষর">
+
+      <button id="loginBtn" type="submit">লগইন</button>
+      <button id="registerBtn" class="secondary" type="button">নতুন অ্যাকাউন্ট তৈরি</button>
+    </form>
+
+    <button id="logoutBtn" class="secondary" type="button" hidden>লগআউট</button>
+    <p id="message" role="status" aria-live="polite"></p>
+    <p id="session" class="small"></p>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://yrkkqpmmrhpslzdskczs.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_9U_CKwSUvw7Q_iIrRfY6AQ_xWG860Tu';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const $ = (id) => document.getElementById(id);
+    const message = $('message');
+    const session = $('session');
+    const loginBtn = $('loginBtn');
+    const registerBtn = $('registerBtn');
+    const logoutBtn = $('logoutBtn');
+
+    function say(text) { message.textContent = text; }
+
+    function getCredentials() {
+      return {
+        email: $('email').value.trim(),
+        password: $('password').value,
+        name: $('name').value.trim()
+      };
+    }
+
+    async function saveProfile(user, name) {
+      const { error } = await supabase.from('profiles').upsert({
+        id: user.id,
+        display_name: name || user.user_metadata?.display_name || ''
+      });
+      if (error) throw error;
+    }
+
+    $('authForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const { email, password } = getCredentials();
+      loginBtn.disabled = true;
+      registerBtn.disabled = true;
+      say('লগইন হচ্ছে...');
+
+      try {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        say('লগইন সফল হয়েছে!');
+      } catch (error) {
+        say('লগইন করা যায়নি: ' + error.message);
+      } finally {
+        loginBtn.disabled = false;
+        registerBtn.disabled = false;
+      }
+    });
+
+    registerBtn.addEventListener('click', async () => {
+      const { email, password, name } = getCredentials();
+      if (!name) {
+        say('অ্যাকাউন্ট তৈরির আগে তোমার নাম লিখো।');
+        $('name').focus();
+        return;
+      }
+
+      loginBtn.disabled = true;
+      registerBtn.disabled = true;
+      say('অ্যাকাউন্ট তৈরি হচ্ছে...');
+
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { display_name: name } }
+        });
+        if (error) throw error;
+
+        if (data.session && data.user) {
+          await saveProfile(data.user, name);
+          say('অ্যাকাউন্ট তৈরি হয়েছে! তুমি লগইন করেছ।');
+        } else {
+          say('রেজিস্ট্রেশন অনুরোধ সফল। ইমেইল যাচাই করে তারপর লগইন করো।');
+        }
+      } catch (error) {
+        say('রেজিস্ট্রেশন করা যায়নি: ' + error.message);
+      } finally {
+        loginBtn.disabled = false;
+        registerBtn.disabled = false;
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      const { error } = await supabase.auth.signOut();
+      if (error) say('লগআউট করা যায়নি: ' + error.message);
+      else say('লগআউট সফল হয়েছে।');
+    });
+
+    async function refreshSession() {
+      const { data } = await supabase.auth.getSession();
+      const user = data.session?.user;
+      logoutBtn.hidden = !user;
+      session.textContent = user ? 'লগইন করা ইমেইল: ' + user.email : 'এখনো লগইন করা নেই।';
+    }
+
+    supabase.auth.onAuthStateChange(() => {
+      refreshSession();
+    });
+    await refreshSession();
+  </script>
+</body>
+  </html>
+
