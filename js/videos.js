@@ -138,12 +138,14 @@
   });
 
   unlockBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    screenLocked = false;
-    lockOverlay.hidden = true;
-    lockBtn.hidden = false;
-    showControls();
-  });
+  e.stopPropagation();
+
+  screenLocked = false;
+  lockOverlay.hidden = true;
+  lockBtn.hidden = false;
+
+  showControls();
+});
 
   lockOverlay.addEventListener('pointerup', (e) => {
     e.stopPropagation();
