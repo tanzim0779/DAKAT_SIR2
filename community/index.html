@@ -459,6 +459,8 @@
           email, password
         });
         if (error) throw error;
+        const { data: sessionCheck } = await supabase.auth.getSession();
+console.log("LOGIN SESSION:", sessionCheck.session);
         setStatus('authMessage', 'লগইন সফল হয়েছে!', 'success');
       } catch (error) {
         setStatus('authMessage', 'লগইন করা যায়নি: ' + error.message, 'error');
