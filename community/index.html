@@ -4,60 +4,324 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DAKAT SIR — Community Login</title>
+  <meta name="theme-color" content="#166534">
+  <title>DAKAT SIR — Community</title>
+
   <style>
     * { box-sizing: border-box; }
+
+    :root {
+      --green: #166534;
+      --green-light: #dcfce7;
+      --bg: #f1f5f9;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
     body {
-      margin: 0; padding: 24px;
-      min-height: 100vh; display: grid; place-items: center;
-      font-family: Arial, sans-serif; background: #f1f5f9; color: #172033;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, "Noto Sans Bengali", sans-serif;
     }
-    .card {
-      width: 100%; max-width: 420px; background: white;
-      padding: 26px; border-radius: 18px;
-      box-shadow: 0 8px 30px #00000012;
+
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: .55; cursor: wait; }
+
+    [hidden] { display: none !important; }
+
+    .topbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 5;
     }
-    h1 { margin-top: 0; font-size: 25px; }
-    p { line-height: 1.5; color: #64748b; }
-    label { display: block; margin: 15px 0 6px; font-weight: 600; }
-    input {
-      width: 100%; padding: 12px; border: 1px solid #cbd5e1;
-      border-radius: 9px; font-size: 16px;
+
+    .topbar-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 13px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
-    button {
-      width: 100%; margin-top: 14px; padding: 12px;
-      border: 0; border-radius: 9px; background: #166534;
-      color: white; font-size: 16px; font-weight: 700; cursor: pointer;
+
+    .brand {
+      color: var(--green);
+      font-weight: 800;
+      font-size: 20px;
     }
-    button.secondary { background: #334155; }
-    button:disabled { opacity: .6; cursor: wait; }
-    #message { overflow-wrap: anywhere; font-size: 14px; }
+
+    .muted { color: var(--muted); }
     .small { font-size: 13px; }
+    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 650px);
+      justify-content: center;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px #0f172a06;
+    }
+
+    h1, h2, h3 { margin-top: 0; }
+    h1 { font-size: 25px; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 16px; }
+    p { line-height: 1.6; }
+
+    label {
+      display: block;
+      margin: 13px 0 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px;
+      background: white;
+      color: var(--text);
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+    input:focus, textarea:focus {
+      outline: 2px solid #86efac;
+      border-color: var(--green);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: var(--green);
+      color: white;
+      font-weight: 700;
+    }
+
+    .btn.secondary { background: #334155; }
+    .btn.light { background: var(--green-light); color: var(--green); }
+    .btn.danger { background: #b91c1c; }
+    .btn.full { width: 100%; margin-top: 12px; }
+    .btn.small-btn { padding: 8px 11px; font-size: 13px; }
+
+    .auth-card { max-width: 440px; margin: 45px auto; }
+    .auth-card p { color: var(--muted); }
+
+    .user-card { position: sticky; top: 82px; }
+    .avatar {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .row { display: flex; align-items: center; gap: 11px; }
+    .between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .post-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .post-author { font-weight: 700; overflow-wrap: anywhere; }
+    .post-content { white-space: pre-wrap; overflow-wrap: anywhere; margin: 12px 0; }
+
+    .attachments {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin: 12px 0;
+    }
+
+    .attachment {
+      display: block;
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .attachment img {
+      width: 100%;
+      display: block;
+      max-height: 300px;
+      object-fit: contain;
+      background: #f8fafc;
+    }
+
+    .file-link { padding: 14px; overflow-wrap: anywhere; }
+    .file-link span { display: block; margin-bottom: 5px; font-size: 24px; }
+
+    .post-stats {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .post-actions .btn { flex: 1; }
+
+    .comments { padding-top: 12px; }
+    .comment {
+      padding: 10px;
+      margin-top: 8px;
+      background: #f8fafc;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .comment-form { display: flex; gap: 8px; margin-top: 10px; }
+    .comment-form input { min-width: 0; }
+    .comment-form .btn { flex-shrink: 0; }
+
+    .file-picker {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .file-picker input { max-width: 100%; padding: 8px; }
+    .status { font-size: 14px; overflow-wrap: anywhere; }
+    .error { color: #b91c1c; }
+    .success { color: var(--green); }
+    .empty { text-align: center; color: var(--muted); padding: 30px 12px; }
+
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+      .user-card { position: static; }
+      .user-card .sidebar-extra { display: none; }
+      .wrap { margin-top: 16px; padding: 0 10px; }
+      .card { padding: 15px; border-radius: 13px; }
+      .topbar-inner { padding: 12px; }
+      .brand { font-size: 17px; }
+      .attachments { grid-template-columns: minmax(0, 1fr); }
+      .attachment img { max-height: 380px; }
+    }
   </style>
 </head>
+
 <body>
-  <main class="card">
-    <h1>DAKAT SIR Community</h1>
-    <p>শিক্ষার্থীদের কমিউনিটিতে প্রবেশ করতে লগইন করো অথবা নতুন অ্যাকাউন্ট তৈরি করো।</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">DAKAT SIR <span class="muted">Community</span></div>
+      <button id="headerLogout" class="btn secondary small-btn" hidden>
+        লগআউট
+      </button>
+    </div>
+  </header>
 
-    <form id="authForm">
-      <label for="name">তোমার নাম (রেজিস্ট্রেশনের জন্য)</label>
-      <input id="name" autocomplete="name" maxlength="60" placeholder="তোমার নাম">
+  <main class="wrap">
+    <!-- LOGIN / REGISTER -->
+    <section id="authSection" class="card auth-card">
+      <h1>কমিউনিটিতে স্বাগতম!</h1>
+      <p>শিক্ষার্থীদের সঙ্গে শেখো, প্রশ্ন করো এবং জ্ঞান ভাগ করে নাও।</p>
 
-      <label for="email">ইমেইল</label>
-      <input id="email" type="email" autocomplete="email" required placeholder="name@example.com">
+      <form id="authForm">
+        <label for="name">তোমার নাম (রেজিস্ট্রেশনের জন্য)</label>
+        <input id="name" autocomplete="name" maxlength="60"
+          placeholder="তোমার নাম">
 
-      <label for="password">পাসওয়ার্ড</label>
-      <input id="password" type="password" autocomplete="current-password"
-        minlength="8" required placeholder="কমপক্ষে ৮ অক্ষর">
+        <label for="email">ইমেইল</label>
+        <input id="email" type="email" autocomplete="email" required
+          placeholder="name@example.com">
 
-      <button id="loginBtn" type="submit">লগইন</button>
-      <button id="registerBtn" class="secondary" type="button">নতুন অ্যাকাউন্ট তৈরি</button>
-    </form>
+        <label for="password">পাসওয়ার্ড</label>
+        <input id="password" type="password" autocomplete="current-password"
+          minlength="8" required placeholder="কমপক্ষে ৮ অক্ষর">
 
-    <button id="logoutBtn" class="secondary" type="button" hidden>লগআউট</button>
-    <p id="message" role="status" aria-live="polite"></p>
-    <p id="session" class="small"></p>
+        <button id="loginBtn" class="btn full" type="submit">লগইন</button>
+        <button id="registerBtn" class="btn secondary full" type="button">
+          নতুন অ্যাকাউন্ট তৈরি
+        </button>
+      </form>
+
+      <p id="authMessage" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- COMMUNITY FEED -->
+    <section id="feedSection" hidden>
+      <div class="layout">
+        <aside>
+          <div class="card user-card">
+            <div class="row">
+              <div class="avatar" id="userAvatar">শ</div>
+              <div>
+                <div id="userName" class="post-author">শিক্ষার্থী</div>
+                <div class="muted small">DAKAT SIR Member</div>
+              </div>
+            </div>
+            <p class="muted small sidebar-extra">
+              সম্মানজনক আচরণ করো। শেখার প্রশ্ন, নোট ও শিক্ষামূলক ফাইল শেয়ার করো।
+            </p>
+            <button id="refreshBtn" class="btn light full" type="button">
+              ↻ ফিড রিফ্রেশ
+            </button>
+          </div>
+        </aside>
+
+        <div>
+          <section class="card">
+            <h2>নতুন পোস্ট তৈরি করো</h2>
+            <form id="postForm">
+              <label for="postContent">তোমার পোস্ট</label>
+              <textarea id="postContent" maxlength="10000"
+                placeholder="কী শেয়ার করতে চাও?"></textarea>
+
+              <div class="file-picker">
+                <label for="postFiles" style="margin:0">📎 ছবি/PDF</label>
+                <input id="postFiles" type="file" multiple
+                  accept="image/jpeg,image/png,image/webp,image/gif,application/pdf">
+              </div>
+              <p class="muted small">
+                সর্বোচ্চ 5টি ফাইল; প্রতিটি 10 MB পর্যন্ত।
+              </p>
+              <p id="fileMessage" class="status" role="status"></p>
+              <button id="publishBtn" class="btn full" type="submit">
+                পোস্ট প্রকাশ করো
+              </button>
+            </form>
+          </section>
+
+          <div class="between" style="margin: 18px 4px 12px">
+            <h2 style="margin:0">সাম্প্রতিক পোস্ট</h2>
+            <span id="postCount" class="muted small"></span>
+          </div>
+
+          <p id="feedMessage" class="status" role="status" aria-live="polite"></p>
+          <div id="feed"></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script type="module">
@@ -65,65 +329,163 @@
       'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
     const SUPABASE_URL = 'https://yrkkqpmmrhpslzdskczs.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_9U_CKwSUvw7Q_iIrRfY6AQ_xWG860Tu';
+    const SUPABASE_PUBLISHABLE_KEY =
+      'sb_publishable_9U_CKwSUvw7Q_iIrRfY6AQ_xWG860Tu';
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const BUCKET = 'community-files';
+    const MAX_FILES = 5;
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    const ALLOWED_TYPES = new Set([
+      'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+      'application/pdf'
+    ]);
 
-    const $ = (id) => document.getElementById(id);
-    const message = $('message');
-    const session = $('session');
-    const loginBtn = $('loginBtn');
-    const registerBtn = $('registerBtn');
-    const logoutBtn = $('logoutBtn');
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
-    function say(text) { message.textContent = text; }
+    const $ = id => document.getElementById(id);
+    let currentUser = null;
+    let currentProfileName = '';
+    let busy = false;
+    let loadingFeed = false;
+    let feedVersion = 0;
 
-    function getCredentials() {
-      return {
-        email: $('email').value.trim(),
-        password: $('password').value,
-        name: $('name').value.trim()
-      };
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[char]);
+    }
+
+    function setStatus(id, text, kind = '') {
+      const el = $(id);
+      el.textContent = text;
+      el.className = 'status ' + kind;
+    }
+
+    function setAuthBusy(value) {
+      $('loginBtn').disabled = value;
+      $('registerBtn').disabled = value;
+    }
+
+    function displayName(user) {
+      return currentProfileName ||
+        user?.user_metadata?.display_name ||
+        user?.email?.split('@')[0] ||
+        'শিক্ষার্থী';
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '';
+      return date.toLocaleString('bn-BD', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      });
+    }
+
+    function safeFileName(name) {
+      return name.normalize('NFKC')
+        .replace(/[\/\\]/g, '_')
+        .replace(/[^\p{L}\p{N}._-]/gu, '_')
+        .slice(-120) || 'file';
+    }
+
+    function setLoggedInUI(user) {
+      currentUser = user || null;
+      $('authSection').hidden = !!user;
+      $('feedSection').hidden = !user;
+      $('headerLogout').hidden = !user;
+
+      if (user) {
+        $('userName').textContent = displayName(user);
+        $('userAvatar').textContent =
+          [...displayName(user)][0]?.toUpperCase() || 'শ';
+      } else {
+        currentProfileName = '';
+        $('feed').replaceChildren();
+      }
+    }
+
+    async function loadProfile(user) {
+      currentProfileName = user?.user_metadata?.display_name || '';
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (!error && data?.display_name) {
+        currentProfileName = data.display_name;
+      }
     }
 
     async function saveProfile(user, name) {
       const { error } = await supabase.from('profiles').upsert({
         id: user.id,
-        display_name: name || user.user_metadata?.display_name || ''
+        display_name: name
       });
+
       if (error) throw error;
+      currentProfileName = name;
     }
 
-    $('authForm').addEventListener('submit', async (event) => {
+    async function logout() {
+      const { error } = await supabase.auth.signOut();
+      if (error) setStatus('authMessage', 'লগআউট করা যায়নি: ' + error.message, 'error');
+    }
+
+    $('headerLogout').addEventListener('click', logout);
+
+    $('authForm').addEventListener('submit', async event => {
       event.preventDefault();
-      const { email, password } = getCredentials();
-      loginBtn.disabled = true;
-      registerBtn.disabled = true;
-      say('লগইন হচ্ছে...');
+      if (busy) return;
+
+      const email = $('email').value.trim();
+      const password = $('password').value;
+      busy = true;
+      setAuthBusy(true);
+      setStatus('authMessage', 'লগইন হচ্ছে...');
 
       try {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email, password
+        });
         if (error) throw error;
-        say('লগইন সফল হয়েছে!');
+        setStatus('authMessage', 'লগইন সফল হয়েছে!', 'success');
       } catch (error) {
-        say('লগইন করা যায়নি: ' + error.message);
+        setStatus('authMessage', 'লগইন করা যায়নি: ' + error.message, 'error');
       } finally {
-        loginBtn.disabled = false;
-        registerBtn.disabled = false;
+        busy = false;
+        setAuthBusy(false);
       }
     });
 
-    registerBtn.addEventListener('click', async () => {
-      const { email, password, name } = getCredentials();
+    $('registerBtn').addEventListener('click', async () => {
+      if (busy) return;
+
+      const name = $('name').value.trim();
+      const email = $('email').value.trim();
+      const password = $('password').value;
+
       if (!name) {
-        say('অ্যাকাউন্ট তৈরির আগে তোমার নাম লিখো।');
+        setStatus('authMessage', 'অ্যাকাউন্ট তৈরির আগে তোমার নাম লিখো।', 'error');
         $('name').focus();
         return;
       }
 
-      loginBtn.disabled = true;
-      registerBtn.disabled = true;
-      say('অ্যাকাউন্ট তৈরি হচ্ছে...');
+      if (!$('authForm').reportValidity()) return;
+
+      busy = true;
+      setAuthBusy(true);
+      setStatus('authMessage', 'অ্যাকাউন্ট তৈরি হচ্ছে...');
 
       try {
         const { data, error } = await supabase.auth.signUp({
@@ -131,40 +493,561 @@
           password,
           options: { data: { display_name: name } }
         });
+
         if (error) throw error;
 
         if (data.session && data.user) {
           await saveProfile(data.user, name);
-          say('অ্যাকাউন্ট তৈরি হয়েছে! তুমি লগইন করেছ।');
+          setStatus('authMessage', 'অ্যাকাউন্ট তৈরি হয়েছে!', 'success');
         } else {
-          say('রেজিস্ট্রেশন অনুরোধ সফল। ইমেইল যাচাই করে তারপর লগইন করো।');
+          setStatus(
+            'authMessage',
+            'রেজিস্ট্রেশন সফল। ইমেইল যাচাই করে তারপর লগইন করো।',
+            'success'
+          );
         }
       } catch (error) {
-        say('রেজিস্ট্রেশন করা যায়নি: ' + error.message);
+        setStatus('authMessage', 'রেজিস্ট্রেশন করা যায়নি: ' + error.message, 'error');
       } finally {
-        loginBtn.disabled = false;
-        registerBtn.disabled = false;
+        busy = false;
+        setAuthBusy(false);
       }
     });
 
-    logoutBtn.addEventListener('click', async () => {
-      const { error } = await supabase.auth.signOut();
-      if (error) say('লগআউট করা যায়নি: ' + error.message);
-      else say('লগআউট সফল হয়েছে।');
-    });
+    function validateFiles(files) {
+      if (files.length > MAX_FILES) {
+        throw new Error('একটি পোস্টে সর্বোচ্চ ৫টি ফাইল দেওয়া যাবে।');
+      }
 
-    async function refreshSession() {
-      const { data } = await supabase.auth.getSession();
-      const user = data.session?.user;
-      logoutBtn.hidden = !user;
-      session.textContent = user ? 'লগইন করা ইমেইল: ' + user.email : 'এখনো লগইন করা নেই।';
+      for (const file of files) {
+        if (!ALLOWED_TYPES.has(file.type)) {
+          throw new Error('শুধু JPG, PNG, WEBP, GIF ছবি অথবা PDF আপলোড করা যাবে।');
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          throw new Error('প্রতিটি ফাইল ১০ MB-এর ছোট হতে হবে: ' + file.name);
+        }
+      }
     }
 
-    supabase.auth.onAuthStateChange(() => {
-      refreshSession();
+    $('postFiles').addEventListener('change', () => {
+      const files = [...$('postFiles').files];
+      try {
+        validateFiles(files);
+        setStatus(
+          'fileMessage',
+          files.length ? files.map(f => f.name).join(', ') : ''
+        );
+      } catch (error) {
+        $('postFiles').value = '';
+        setStatus('fileMessage', error.message, 'error');
+      }
     });
-    await refreshSession();
+
+    async function getSignedAttachmentUrl(path) {
+      const { data, error } = await supabase.storage
+        .from(BUCKET)
+        .createSignedUrl(path, 60 * 60);
+
+      if (error) return null;
+      return data?.signedUrl || null;
+    }
+
+    async function uploadAttachments(files, postId) {
+      const uploaded = [];
+      const records = [];
+
+      try {
+        for (const file of files) {
+          const path = `${currentUser.id}/${postId}/${crypto.randomUUID()}-${safeFileName(file.name)}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from(BUCKET)
+            .upload(path, file, {
+              contentType: file.type,
+              upsert: false
+            });
+
+          if (uploadError) throw uploadError;
+          uploaded.push(path);
+
+          records.push({
+            post_id: postId,
+            user_id: currentUser.id,
+            file_name: file.name,
+            file_path: path,
+            mime_type: file.type,
+            file_size: file.size
+          });
+        }
+
+        if (records.length) {
+          const { error } = await supabase
+            .from('community_attachments')
+            .insert(records);
+
+          if (error) throw error;
+        }
+      } catch (error) {
+        if (uploaded.length) {
+          await supabase.storage.from(BUCKET).remove(uploaded);
+        }
+        throw error;
+      }
+    }
+
+    $('postForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!currentUser || busy) return;
+
+      const content = $('postContent').value.trim();
+      const files = [...$('postFiles').files];
+
+      if (!content && !files.length) {
+        setStatus('fileMessage', 'পোস্টে কিছু লিখো অথবা ছবি/PDF যোগ করো।', 'error');
+        return;
+      }
+
+      try {
+        validateFiles(files);
+      } catch (error) {
+        setStatus('fileMessage', error.message, 'error');
+        return;
+      }
+
+      busy = true;
+      $('publishBtn').disabled = true;
+      $('publishBtn').textContent = 'প্রকাশ হচ্ছে...';
+      setStatus('fileMessage', 'পোস্ট তৈরি হচ্ছে...');
+
+      let postId = null;
+
+      try {
+        const { data: post, error } = await supabase
+          .from('community_posts')
+          .insert({
+            user_id: currentUser.id,
+            content
+          })
+          .select('id')
+          .single();
+
+        if (error) throw error;
+        postId = post.id;
+
+        if (files.length) {
+          setStatus('fileMessage', 'ফাইল আপলোড হচ্ছে...');
+          await uploadAttachments(files, postId);
+        }
+
+        $('postContent').value = '';
+        $('postFiles').value = '';
+        setStatus('fileMessage', 'পোস্ট সফলভাবে প্রকাশিত হয়েছে!', 'success');
+        await loadFeed();
+      } catch (error) {
+        setStatus(
+          'fileMessage',
+          'পোস্ট সম্পন্ন হয়নি: ' + error.message +
+            (postId ? ' (পোস্টের একটি রেকর্ড তৈরি হয়ে থাকতে পারে।)' : ''),
+          'error'
+        );
+      } finally {
+        busy = false;
+        $('publishBtn').disabled = false;
+        $('publishBtn').textContent = 'পোস্ট প্রকাশ করো';
+      }
+    });
+
+    async function loadFeed() {
+      if (!currentUser || loadingFeed) return;
+      loadingFeed = true;
+      const version = ++feedVersion;
+      setStatus('feedMessage', 'পোস্ট লোড হচ্ছে...');
+
+      try {
+        const { data: posts, error: postsError } = await supabase
+          .from('community_posts')
+          .select('id, user_id, content, created_at')
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (postsError) throw postsError;
+        if (version !== feedVersion) return;
+
+        if (!posts?.length) {
+          $('feed').innerHTML =
+            '<div class="card empty">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি তুমি করো! 🌱</div>';
+          $('postCount').textContent = '০ পোস্ট';
+          setStatus('feedMessage', '');
+          return;
+        }
+
+        const ids = posts.map(post => post.id);
+        const userIds = [...new Set(posts.map(post => post.user_id))];
+
+        const [attachmentResult, likeResult, commentResult, profileResult] =
+          await Promise.all([
+            supabase.from('community_attachments')
+              .select('id, post_id, user_id, file_name, file_path, mime_type, file_size')
+              .in('post_id', ids),
+            supabase.from('community_likes')
+              .select('post_id, user_id')
+              .in('post_id', ids),
+            supabase.from('community_comments')
+              .select('id, post_id, user_id, content, created_at')
+              .in('post_id', ids)
+              .order('created_at', { ascending: true }),
+            supabase.from('profiles')
+              .select('id, display_name')
+              .in('id', userIds)
+            
+        ]);
+
+        if (version !== feedVersion) return;
+
+        const attachmentError = attachmentResult.error;
+        const likeError = likeResult.error;
+        const commentError = commentResult.error;
+        const profileError = profileResult.error;
+
+        if (attachmentError) throw attachmentError;
+        if (likeError) throw likeError;
+        if (commentError) throw commentError;
+
+        const attachments = attachmentResult.data || [];
+        const likes = likeResult.data || [];
+        const comments = commentResult.data || [];
+        const profiles = profileError ? [] : (profileResult.data || []);
+
+        const profileMap = new Map(
+          profiles.map(p => [p.id, p.display_name])
+        );
+
+        const signedUrls = await Promise.all(
+          attachments.map(async attachment => ({
+            id: attachment.id,
+            url: await getSignedAttachmentUrl(attachment.file_path)
+          }))
+        );
+
+        if (version !== feedVersion) return;
+
+        const urlMap = new Map(
+          signedUrls.map(item => [item.id, item.url])
+        );
+
+        $('feed').innerHTML = posts.map(post => {
+          const author = profileMap.get(post.user_id) ||
+            (post.user_id === currentUser.id
+              ? displayName(currentUser)
+              : 'শিক্ষার্থী');
+
+          const postAttachments = attachments.filter(
+            a => a.post_id === post.id
+          );
+
+          const postLikes = likes.filter(
+            l => l.post_id === post.id
+          );
+
+          const liked = postLikes.some(
+            l => l.user_id === currentUser.id
+          );
+
+          const postComments = comments.filter(
+            c => c.post_id === post.id
+          );
+
+          const attachmentHTML = postAttachments.map(file => {
+            const url = urlMap.get(file.id);
+
+            if (!url) {
+              return `<div class="attachment file-link">
+                <span>🔒</span>
+                ${escapeHTML(file.file_name)}
+                <br>
+                <small class="muted">ফাইল দেখা যাচ্ছে না</small>
+              </div>`;
+            }
+
+            if (file.mime_type?.startsWith('image/')) {
+              return `<a class="attachment"
+                href="${escapeHTML(url)}"
+                target="_blank"
+                rel="noopener noreferrer">
+                <img
+                  src="${escapeHTML(url)}"
+                  alt="${escapeHTML(file.file_name)}"
+                  loading="lazy">
+              </a>`;
+            }
+
+            return `<a class="attachment file-link"
+              href="${escapeHTML(url)}"
+              target="_blank"
+              rel="noopener noreferrer">
+              <span>📄</span>
+              <strong>${escapeHTML(file.file_name)}</strong>
+              <small class="muted">PDF · নতুন ট্যাবে খুলবে</small>
+            </a>`;
+          }).join('');
+
+          const commentsHTML = postComments.map(comment => {
+            const commentAuthor =
+              profileMap.get(comment.user_id) ||
+              (comment.user_id === currentUser.id
+                ? displayName(currentUser)
+                : 'শিক্ষার্থী');
+
+            return `<div class="comment">
+              <div class="post-author">
+                ${escapeHTML(commentAuthor)}
+              </div>
+              <div>${escapeHTML(comment.content)}</div>
+              <div class="muted small">
+                ${escapeHTML(formatDate(comment.created_at))}
+              </div>
+            </div>`;
+          }).join('');
+
+          return `<article class="card"
+            data-post-id="${escapeHTML(post.id)}">
+
+            <div class="post-head">
+              <div class="avatar">
+                ${escapeHTML([...author][0] || 'শ')}
+              </div>
+              <div>
+                <div class="post-author">
+                  ${escapeHTML(author)}
+                </div>
+                <div class="muted small">
+                  ${escapeHTML(formatDate(post.created_at))}
+                </div>
+              </div>
+            </div>
+
+            ${post.content
+              ? `<div class="post-content">${escapeHTML(post.content)}</div>`
+              : ''}
+
+            ${attachmentHTML
+              ? `<div class="attachments">${attachmentHTML}</div>`
+              : ''}
+
+            <div class="post-stats">
+              <span>❤️ ${postLikes.length} Like</span>
+              <span>💬 ${postComments.length} Comment</span>
+            </div>
+
+            <div class="post-actions">
+              <button
+                class="btn ${liked ? '' : 'light'} small-btn"
+                data-action="like"
+                data-post="${escapeHTML(post.id)}">
+                ${liked ? '❤️ Liked' : '🤍 Like'}
+              </button>
+
+              <button
+                class="btn light small-btn"
+                data-action="focus-comment"
+                data-post="${escapeHTML(post.id)}">
+                💬 Comment
+              </button>
+            </div>
+
+            <div class="comments">
+              ${commentsHTML}
+
+              <form
+                class="comment-form"
+                data-comment-form="${escapeHTML(post.id)}">
+
+                <input
+                  name="comment"
+                  maxlength="2000"
+                  required
+                  placeholder="একটি মন্তব্য লেখো..."
+                  aria-label="মন্তব্য">
+
+                <button class="btn small-btn" type="submit">
+                  পাঠাও
+                </button>
+              </form>
+            </div>
+          </article>`;
+        }).join('');
+
+        $('postCount').textContent = `${posts.length}টি পোস্ট`;
+        setStatus('feedMessage', '');
+
+      } catch (error) {
+        setStatus(
+          'feedMessage',
+          'ফিড লোড করা যায়নি: ' + error.message,
+          'error'
+        );
+      } finally {
+        loadingFeed = false;
+      }
+    }
+
+    $('feed').addEventListener('click', async event => {
+      const button = event.target.closest('button[data-action]');
+
+      if (!button || !currentUser) return;
+
+      const postId = button.dataset.post;
+      const action = button.dataset.action;
+
+      if (action === 'focus-comment') {
+        const input = $('feed').querySelector(
+          `form[data-comment-form="${CSS.escape(postId)}"] input`
+        );
+
+        input?.focus();
+        return;
+      }
+
+      if (action !== 'like') return;
+
+      button.disabled = true;
+
+      try {
+        const { data: existing, error: findError } =
+          await supabase
+            .from('community_likes')
+            .select('post_id')
+            .eq('post_id', postId)
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+
+        if (findError) throw findError;
+
+        if (existing) {
+          const { error } = await supabase
+            .from('community_likes')
+            .delete()
+            .eq('post_id', postId)
+            .eq('user_id', currentUser.id);
+
+          if (error) throw error;
+        } else {
+          const { error } = await supabase
+            .from('community_likes')
+            .insert({
+              post_id: postId,
+              user_id: currentUser.id
+            });
+
+          if (error) throw error;
+        }
+
+        await loadFeed();
+
+      } catch (error) {
+        setStatus(
+          'feedMessage',
+          'Like করা যায়নি: ' + error.message,
+          'error'
+        );
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $('feed').addEventListener('submit', async event => {
+      const form = event.target.closest(
+        'form[data-comment-form]'
+      );
+
+      if (!form || !currentUser) return;
+
+      event.preventDefault();
+
+      const postId = form.dataset.commentForm;
+      const input = form.elements.comment;
+      const content = input.value.trim();
+
+      if (!content) return;
+
+      const button = form.querySelector('button');
+      button.disabled = true;
+
+      try {
+        const { error } = await supabase
+          .from('community_comments')
+          .insert({
+            post_id: postId,
+            user_id: currentUser.id,
+            content
+          });
+
+        if (error) throw error;
+
+        await loadFeed();
+
+      } catch (error) {
+        setStatus(
+          'feedMessage',
+          'মন্তব্য পাঠানো যায়নি: ' + error.message,
+          'error'
+        );
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $('refreshBtn').addEventListener('click', loadFeed);
+
+    async function activateSession(session) {
+      const user = session?.user || null;
+
+      setLoggedInUI(user);
+
+      if (user) {
+        try {
+          await loadProfile(user);
+
+          $('userName').textContent = displayName(user);
+          $('userAvatar').textContent =
+            [...displayName(user)][0] || 'শ';
+
+          await loadFeed();
+
+        } catch (error) {
+          setStatus(
+            'feedMessage',
+            error.message,
+            'error'
+          );
+        }
+      }
+    }
+
+    // প্রথমবার বর্তমান সেশন পরীক্ষা
+    const {
+      data: sessionData,
+      error: sessionError
+    } = await supabase.auth.getSession();
+
+    if (sessionError) {
+      setStatus(
+        'authMessage',
+        sessionError.message,
+        'error'
+      );
+    }
+
+    await activateSession(sessionData?.session);
+
+    // Login/logout/refresh হলে UI আপডেট
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setTimeout(() => {
+        void activateSession(session);
+      }, 0);
+    });
   </script>
 </body>
-  </html>
+</html>
 
+      
