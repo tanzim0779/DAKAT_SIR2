@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25T03:56:42.065Z",
+  "updated": "2026-10-25T15:49:19.590Z",
   "channels": [
     {
       "id": "UCjvXTW3qG91V7-LVdoxUcsg",
@@ -36,10 +36,16 @@
   ],
   "videos": [
     {
+      "id": "V_uq3v6xK-4",
+      "t": "Sphere Intersection Puzzle Corrected",
+      "c": "UCYO_jab_esuFRV4b17AJtAw",
+      "d": "2026-10-25T14:30:46Z"
+    },
+    {
       "id": "oqQVxUOQceo",
       "t": "এসএসসি '২৭/'২৮: সাধারণ গণিত লাইভ | দ্বিতীয় অধ্যায়: সেট ও ফাংশনের বেসিক ও কনসেপ্ট।",
       "c": "UCjvXTW3qG91V7-LVdoxUcsg",
-      "d": "2026-10-24T17:06:59Z"
+      "d": "2026-10-25T05:18:43Z"
     },
     {
       "id": "WlYGVGzSSyo",
@@ -8518,12 +8524,6 @@
       "t": "How secure is 256 bit security?",
       "c": "UCYO_jab_esuFRV4b17AJtAw",
       "d": "2017-07-08T14:19:39Z"
-    },
-    {
-      "id": "bBC-nXj3Ng4",
-      "t": "But how does bitcoin actually work?",
-      "c": "UCYO_jab_esuFRV4b17AJtAw",
-      "d": "2017-07-07T16:51:37Z"
     },
     {
       "id": "ryeRqMkHIyI",
