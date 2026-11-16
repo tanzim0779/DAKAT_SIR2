@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T05:39:58.349Z",
+  "updated": "2026-11-16T21:48:27.039Z",
   "channels": [
     {
       "id": "UCjvXTW3qG91V7-LVdoxUcsg",
@@ -35,6 +35,12 @@
     }
   ],
   "videos": [
+    {
+      "id": "QMt6FEuXz0s",
+      "t": "Optical Illusions!",
+      "c": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "d": "2026-11-16T18:00:17Z"
+    },
     {
       "id": "gFF6V_YmRug",
       "t": "স্রষ্টা আছে নাকি নাই কিভাবে বুঝবো? | The God Logic - Ep 01",
@@ -3232,12 +3238,6 @@
       "t": "The Future of MIT Open Education",
       "c": "UCEBb1b_L6zDS3xTUrIALZOw",
       "d": "2026-05-06T18:11:18Z"
-    },
-    {
-      "id": "bI8HHKDrHAY",
-      "t": "Will AI negate the need for science photography?",
-      "c": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "d": "2026-05-05T15:04:48Z"
     },
     {
       "id": "9HPdwVTol7o",
