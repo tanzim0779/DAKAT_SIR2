@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T07:16:30.105Z",
+  "updated": "2026-11-17T20:39:17.554Z",
   "channels": [
     {
       "id": "UCjvXTW3qG91V7-LVdoxUcsg",
@@ -35,6 +35,24 @@
     }
   ],
   "videos": [
+    {
+      "id": "qbsb9DpdZ6s",
+      "t": "How to compress text to 1 bit per character | Compression is Intelligence Part 3",
+      "c": "UCYO_jab_esuFRV4b17AJtAw",
+      "d": "2026-11-17T16:43:16Z"
+    },
+    {
+      "id": "0IZcjWtWmDA",
+      "t": "Encoding the encyclopedia on a rod",
+      "c": "UCYO_jab_esuFRV4b17AJtAw",
+      "d": "2026-11-17T16:43:03Z"
+    },
+    {
+      "id": "uqFwmaLoQcw",
+      "t": "Building Climate and Energy Resilience through Education Live Webcast",
+      "c": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "d": "2026-11-17T15:23:41Z"
+    },
     {
       "id": "IJLc7RtcF2Y",
       "t": "বেশি দামে সবগুলো ভুঁড়ি একসাথে কিনে নিলাম! সব মানুষ তো অবাক 🤫​",
@@ -3232,12 +3250,6 @@
       "t": "Catalysts of Open: Philanthropy’s Role in the Open Education Movement",
       "c": "UCEBb1b_L6zDS3xTUrIALZOw",
       "d": "2026-05-06T18:11:26Z"
-    },
-    {
-      "id": "SrGIv3ustJ4",
-      "t": "The Future of MIT Open Education",
-      "c": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "d": "2026-05-06T18:11:18Z"
     },
     {
       "id": "9HPdwVTol7o",
@@ -8518,18 +8530,6 @@
       "t": "How do Child Proof Caps work?",
       "c": "UCbsfyGlrjrKQC0gbzK0-EiA",
       "d": "2017-07-22T00:00:01Z"
-    },
-    {
-      "id": "3s7h2MHQtxc",
-      "t": "Hilbert's Curve: Is infinite math useful?",
-      "c": "UCYO_jab_esuFRV4b17AJtAw",
-      "d": "2017-07-21T15:33:50Z"
-    },
-    {
-      "id": "S9JGmA5_unY",
-      "t": "How secure is 256 bit security?",
-      "c": "UCYO_jab_esuFRV4b17AJtAw",
-      "d": "2017-07-08T14:19:39Z"
     },
     {
       "id": "ryeRqMkHIyI",
