@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23T06:41:50.219Z",
+  "updated": "2026-11-23T23:37:21.880Z",
   "channels": [
     {
       "id": "UCjvXTW3qG91V7-LVdoxUcsg",
@@ -35,6 +35,12 @@
     }
   ],
   "videos": [
+    {
+      "id": "D0Z7AlxDPdU",
+      "t": "Plant Population Density by Quadrat Method",
+      "c": "UCeAnrUKcxFGrMXfHgj0eMjg",
+      "d": "2026-11-23T14:38:43Z"
+    },
     {
       "id": "zqzk43bSdDI",
       "t": "Since last year, we asked: “What if AI solved the Riemann Hypothesis?”",
@@ -2131,7 +2137,7 @@
     },
     {
       "id": "GlYgs6v2YfU",
-      "t": "But what is cross-entropy? | Information theory, part 2",
+      "t": "What is cross-entropy, and why is it used in ML? | Information theory, part 2",
       "c": "UCYO_jab_esuFRV4b17AJtAw",
       "d": "2026-07-16T11:56:04Z"
     },
@@ -2983,7 +2989,7 @@
     },
     {
       "id": "l6DKRf-fAAM",
-      "t": "Reinventing Entropy | Information theory, part 1",
+      "t": "Shannon's dream: The limit of compressibility | Information theory, part 1",
       "c": "UCYO_jab_esuFRV4b17AJtAw",
       "d": "2026-06-07T11:49:51Z"
     },
@@ -7072,12 +7078,6 @@
       "t": "নদী বিজ্ঞান River science, Erosion and Deposition explained in Bangla Ep 127",
       "c": "UCotg1XiSmuJnFA6RXHKLW4w",
       "d": "2023-11-20T08:00:30Z"
-    },
-    {
-      "id": "We4QOHZEy9w",
-      "t": "Vectors Physics Class 11th",
-      "c": "UCeAnrUKcxFGrMXfHgj0eMjg",
-      "d": "2023-11-18T08:49:46Z"
     },
     {
       "id": "4lq6gr2AWes",
