@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T07:34:04.552Z",
+  "updated": "2026-11-27T20:53:55.118Z",
   "channels": [
     {
       "id": "UCjvXTW3qG91V7-LVdoxUcsg",
@@ -2155,7 +2155,7 @@
     },
     {
       "id": "GlYgs6v2YfU",
-      "t": "What is cross-entropy, and why is it used in ML? | Compression & Intelligence, part 2",
+      "t": "Cross-entropy: Compression ratios as loss functions | Compression & Intelligence, part 2",
       "c": "UCYO_jab_esuFRV4b17AJtAw",
       "d": "2026-07-16T11:56:04Z"
     },
